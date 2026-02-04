@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial, sans-serif;
+text-align:center;
+color:white;
+overflow:hidden;
+}
+
+/* Background slideshow */
+.bg{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:-2;
+background-size:cover;
+background-position:center;
+animation:slide 18s infinite;
+}
+
+@keyframes slide{
+0%{background-image:url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e");}
+33%{background-image:url("https://images.unsplash.com/photo-1501785888041-af3ef285b470");}
+66%{background-image:url("https://images.unsplash.com/photo-1519681393784-d120267933ba");}
+100%{background-image:url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e");}
+}
+
+/* Floating hearts */
+.heart{
+position:fixed;
+color:pink;
+font-size:20px;
+animation:floatUp 5s linear infinite;
+}
+
+@keyframes floatUp{
+0%{transform:translateY(100vh); opacity:1;}
+100%{transform:translateY(-10vh); opacity:0;}
+}
+
+/* Header */
+h1{
+margin-top:30px;
+font-size:40px;
+}
+
+.caption{
+font-size:28px;
+margin-top:20px;
+}
+
+/* Envelope */
+.envelope{
+width:120px;
+height:80px;
+background:#ff8fa3;
+margin:20px auto;
+position:relative;
+cursor:pointer;
+border-radius:10px;
+}
+
+/* Envelope flap */
+.flap{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:50%;
+background:#ff6f91;
+clip-path:polygon(0 0, 50% 100%, 100% 0);
+transition:0.6s;
+transform-origin:top;
+}
+
+.envelope.open .flap{
+transform:rotateX(180deg);
+}
+
+/* Letter popup */
+.popup{
+display:none;
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:white;
+color:black;
+padding:20px;
+border-radius:20px;
+width:300px;
+z-index:10;
+}
+
+/* Image */
+.valentine-img{
+width:300px;
+border-radius:20px;
+}
+
+/* Buttons */
+button{
+padding:10px 25px;
+font-size:20px;
+margin:20px;
+border:none;
+border-radius:30px;
+cursor:pointer;
+}
+
+#yes{
+background:#ff4d6d;
+color:white;
+transition:0.3s;
+}
+
+#yes:hover{
+transform:scale(1.2);
+}
+
+#no{
+background:gray;
+position:absolute;
+}
+
+/* Smoke animation */
+.smoke{
+animation:smokeFade 1s forwards;
+}
+
+@keyframes smokeFade{
+0%{opacity:1; transform:scale(1);}
+100%{opacity:0; transform:scale(2);}
+}
+
+/* Yay popup */
+#yay{
+display:none;
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:white;
+color:black;
+padding:20px;
+border-radius:20px;
+z-index:20;
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg"></div>
+
+<h1>🍓 Hello HIROSHI 🍓</h1>
+
+<!-- Envelope -->
+<div class="envelope" onclick="openEnvelope(this)">
+<div class="flap"></div>
+</div>
+
+<!-- Letter -->
+<div class="popup" id="letter">
+<p>
+Hey loser thanks for opening this link and clicking on the envelope but fun and jokes aside i really enjoy being your friend 🩶
+</p>
+<button onclick="closeLetter()">Close</button>
+</div>
+
+<div class="caption">Will you be my Valentines?</div>
+
+<img class="valentine-img"
+src="https://images.unsplash.com/photo-1519681393784-d120267933ba">
+
+<div>
+<button id="yes" onclick="showYay()">Yes</button>
+<button id="no">No</button>
+</div>
+
+<div id="yay">
+<h2>YAYY THANK YOU FOR ACCEPTING YOU ARE NOW OFFICIALLY MY FEMBOY</h2>
+<p>(now send me feet pics or else)</p>
+<img src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif" width="150">
+</div>
+
+<!-- Music -->
+<audio id="music" loop>
+<source src="https://cdn.pixabay.com/audio/2022/03/15/audio_115b9b0e61.mp3">
+</audio>
+
+<button onclick="toggleMusic()" style="position:fixed;bottom:20px;right:20px;">🎵</button>
+
+<script>
+
+/* Floating hearts generator */
+setInterval(()=>{
+let heart=document.createElement("div");
+heart.classList.add("heart");
+heart.innerHTML="💖";
+heart.style.left=Math.random()*100+"vw";
+heart.style.fontSize=Math.random()*20+15+"px";
+document.body.appendChild(heart);
+
+setTimeout(()=>heart.remove(),5000);
+},600);
+
+/* Envelope animation */
+function openEnvelope(el){
+el.classList.add("open");
+
+setTimeout(()=>{
+document.getElementById("letter").style.display="block";
+},500);
+}
+
+function closeLetter(){
+document.getElementById("letter").style.display="none";
+}
+
+/* YES popup */
+function showYay(){
+document.getElementById("yay").style.display="block";
+}
+
+/* NO button */
+const noBtn=document.getElementById("no");
+let noClicks=0;
+
+noBtn.addEventListener("click",()=>{
+noClicks++;
+
+if(noClicks>=3){
+noBtn.classList.add("smoke");
+setTimeout(()=>noBtn.style.display="none",900);
+return;
+}
+
+noBtn.style.top=Math.random()*window.innerHeight+"px";
+noBtn.style.left=Math.random()*window.innerWidth+"px";
+});
+
+/* Music */
+const music=document.getElementById("music");
+
+function toggleMusic(){
+if(music.paused){
+music.play();
+}else{
+music.pause();
+}
+}
+
+</script>
+
+</body>
+</html>
